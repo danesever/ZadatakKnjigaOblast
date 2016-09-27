@@ -2,6 +2,9 @@ package zadaci;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+import model.Knjiga;
+import model.Oblast;
 
 import java.io.IOException;
 
@@ -10,22 +13,26 @@ public class Zadatak1KreiranjeTabela {
 
     public static void main(String[] args) {
         ConnectionSource connectionSource = null;
-        try { connectionSource = new
+        try {
+            connectionSource = new
+                    JdbcConnectionSource("jdbc:sqlite:knjigaOblast.db");
+            TableUtils.dropTable(connectionSource, Oblast.class, true);
+            TableUtils.dropTable(connectionSource, Knjiga.class,true);
 
-                    JdbcConnectionSource("jdbc:sqlite:knjigaOblast.db" ) ;
-        } catch (Exception e){
 
-        }
+            TableUtils.createTable(connectionSource,Knjiga.class);
+            TableUtils.createTable(connectionSource, Oblast.class);
+        } catch (Exception e) {
 
-        finally {
-
+        } finally {
 
             try {
-                connectionSource . close () ;
+                connectionSource.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
 
     }
 }
